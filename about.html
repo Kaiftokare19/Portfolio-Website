@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">    
+    <title>kaiftokare - A Social Nevla</title>
+</head>
+<body>    
+    <nav class="navbar background h-nav-resp">
+        <ul class="nav-list v-class-resp">            
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html"><button class="btn">About</button></a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="index.html#contact">Contact Us</a></li>
+        </ul>
+        <div class="rightnav v-class-resp">                                                           
+            <input
+                    type="text"
+                    id="searchQuery"
+                    class="search-bar"
+                    placeholder="Type your search here..."
+            />
+            <button class="btn btn-sm" onclick="searchGoogle()">Search</button>                          
+            <script>
+                    function searchGoogle() {
+                        // Get the search query
+                        const query = document.getElementById("searchQuery").value.trim();
+                        
+                        // Check if the query is not empty
+                        if (query) {
+                            // Redirect to Google search with the query
+                            window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+                        } else {
+                            alert("Please enter something to search!");
+                        }
+                    }
+            </script>                       
+        </div>      
+        <div class="burger">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>       
+    </nav>
+    <section class="background aboutSection about">        
+        <div class="box-main">
+
+            <div class="firsthalf">
+                <p class="text-big">kaiftokare</p>
+                <p class="text-small">A Social Nevla</p>
+                <div class="buttons">
+                    <a href="https://www.youtube.com/channel/UCRmKUDCAjbn1EbrLYfj8l4A"><button class="btn">Youtube</button></a>                                                            
+                    <a href="https://www.figma.com/files/team/1416862967744120408/recents-and-sharing?fuid=1416862965906273877"><button class="btn">Figma</button></a>                                                          
+                </div>
+            </div>
+
+            <div class="secondhalf">
+                <img src="image/logo.jpg.jpeg" alt="Youtube Thubnail" class="glow2"></div>
+        </div>    
+    </section>
+    
+    <section class="section1 aboutreel">
+        <div class="paras"> 
+        <p class="sectionTag">About Kaiftokare</p>        
+        <p class="sectionSubTag">Welcome to my world of lifestyle and travel adventures!
+             I'm a 20-year-old aspiring YouTuber and computer science engineering student based in Mumbai. My name is Kaif Tokare,
+             and I'm passionate about capturing and recording the beautiful moments of life through my camera lens.</p>
+        <p class="sectionSubTag">I Believe that life is a journey worth documenting,
+             and through my YouTube channel and Instagram pages, named "KaifTokare" and "Clickaife," I aim to share my experiences with the world.
+              From exploring picturesque destinations to immersing myself in different cultures,
+               I'm on a mission to create engaging and inspiring content that resonates with viewers like you.</p>      
+        <p class="sectionSubTag">As a young adult pursuing my engineering degree, I'm fascinated by the world of technology and how it shapes our lives.
+             My love for videography and photography perfectly aligns with my chosen field, allowing me to blend my creative skills with my technical knowledge.</p>                 
+        </div>
+        <div class="vidAbout">
+            <!-- mp4, WebM, and Ogg -->        
+            <video controls loop>
+                <source src="video/vid.mp4.mp4">                
+            </video> 
+        </div>       
+    </section>
+    
+    <section class="section2 aboutreel">
+        <div class="paras"> 
+        <p class="sectionTag">How I started Video Editing ?</p>        
+        <p class="sectionSubTag"> I have always had a passion for recording life's beautiful moments and sharing them with the world through my YouTube channel. Let me take you on a journey of how I discovered and developed my skills in video editing.</p>
+
+            <p class="sectionSubTag">It all started when I got my hands on a camera and began capturing the essence of my daily life and adventures. As I delved deeper into the world of videography, I realized that capturing footage was just the beginning. I wanted to bring my videos to life, to create engaging and captivating content that resonated with viewers.</p>
+            
+                <p class="sectionSubTag">This realization sparked my curiosity about video editing. I embarked on a quest to learn the art of manipulating footage, adding effects, and crafting compelling narratives. With the power of technology at my fingertips, I explored various video editing software and techniques, eager to unlock their potential.</p>              
+            </div>
+            <div class="videditAbout">
+            <!-- mp4, WebM, and Ogg -->        
+            <video controls loop>
+                <source src="video/vid22.mp4.mp4">                
+            </video> 
+            <video controls loop>
+                <source src="video/vidGlimpse.mp4.mp4">                
+            </video> 
+            <video controls loop>
+                <source src="video/vid21.mp4.mp4">                
+            </video> 
+        </div>
+    </section>
+
+    <section class="section4 aboutreel">
+        <div class="paras"> 
+        <p class="sectionTag">How I started Photography ?</p>        
+        <p class="sectionSubTag">My love for capturing life's precious moments through photography has become an integral part of who I am. Let me take you on a journey of how I discovered and developed my passion for photography and photo editing.</p>
+
+            <p class="sectionSubTag">It all began with a simple desire to record the beauty and essence of life. Armed with my camera, I started capturing the moments that resonated with me—the vibrant colors, the fleeting expressions, and the unique stories that unfolded around me. Photography became a way for me to freeze time and create lasting memories.</p>
+            
+                <p class="sectionSubTag">As I delved deeper into the world of photography, I realized that capturing a great photo was just the beginning. I wanted to enhance and elevate the visual experience, to bring out the true essence of the moments I captured. This led me to explore the art of photo editing.</p>
+                                 
+                                       <p class="sectionSubTag">Thank you for joining me on this incredible journey. Stay tuned for more captivating moments and visual stories as I continue to capture life, one frame at a time.</p>
+        </div>
+        <div class="vidAbout">
+            <!-- mp4, WebM, and Ogg -->        
+            <video controls loop>
+                <source src="video/click.mp4.mp4">                
+            </video> 
+        </div>       
+    </section>
+  <!-- Contact Section -->
+  <section id="contact">
+    <div class="contact-container">
+      <!-- Contact Info -->
+      <div class="contact-info">
+        <h2>Let's Connect</h2>
+        <p>Feel free to reach out if you want to collaborate with me, or simply have a chat. I'd love to hear from you!</p>
+        
+        <!-- Social Links -->
+        <div class="social-links">
+          <a href="https://facebook.com/kaif.tokare" class="social-btn facebook" title="Facebook">
+            <i>f</i>
+          </a>
+          <a href="https://instagram.com/kaiftokare" class="social-btn instagram" title="Instagram">
+            <i>in</i>
+          </a>
+          <a href="https://twitter.com/kaif_tokare" class="social-btn twitter" title="Twitter">
+            <i>t</i>
+          </a>
+          <a href="https://linkedin.com/in/kaif-tokare-877538249" class="social-btn linkedin" title="LinkedIn">
+            <i>li</i>
+          </a>
+          <a href="https://github.com/Kaiftokare19" class="social-btn github" title="GitHub">
+            <i>g</i>
+          </a>
+        </div>
+
+        <p>You can also email me directly at:<br>
+        <strong>kaiftokare19@gmail.com</strong></p>
+      </div>
+
+      <!-- Contact Form -->
+      <form class="contact-form" id="contactForm">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+
+        <div class="form-group">
+          <label for="subject">Subject</label>
+          <input type="text" id="subject" name="subject" required>
+        </div>
+
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" required></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn">Send Message</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">Message sent successfully!</div>
+    <footer class="background">
+        <p class="text-footer">
+            Copyright &copy; 2023 www.kaiftokare.com - All Rights Reserved
+        </p>
+    </footer>
+    <script src="js/resp.js"></script>
+</body>
+</html>

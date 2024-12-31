@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>kaiftokare - A Tech Enthusiast</title>
+</head>
+
+<body>
+    <nav class="navbar background h-nav-resp">
+        <ul class="nav-list v-class-resp">
+            
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="index.html#contact">Contact Us</a></li>
+        </ul>
+        <div class="rightnav v-class-resp">                                                           
+            <input
+                    type="text"
+                    id="searchQuery"
+                    class="search-bar"
+                    placeholder="Type your search here..."
+            />
+            <button class="btn btn-sm" onclick="searchGoogle()">Search</button>                          
+            <script>
+                    function searchGoogle() {
+                        // Get the search query
+                        const query = document.getElementById("searchQuery").value.trim();
+                        
+                        // Check if the query is not empty
+                        if (query) {
+                            // Redirect to Google search with the query
+                            window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+                        } else {
+                            alert("Please enter something to search!");
+                        }
+                    }
+            </script>                       
+        </div>
+        <div class="burger">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+    </nav>
+
+    <section class="background firstSection" >
+        <div class="box-main">
+            <div class="firsthalf">
+                <p class="text-big">kaiftokare</p>
+                <p class="text-small">An Enthusiastic Software Deveoper/AIML Engineer</p>
+                <div class="buttons">
+                    <a href="https://www.linkedin.com/in/kaif-tokare-877538249/"><button
+                            class="btn">LinkedIn</button></a>
+                    <a href="https://github.com/Kaiftokare19"><button
+                            class="btn">Github</button></a>
+                </div>
+            </div>            
+            <div class="secondhalf">
+                <img src="image/logo.jpg.jpeg" alt="Youtube Thubnail" class="glow">
+            </div>
+        </div>
+    </section>
+
+    <section class="section1" id="Home">
+        <div class="paras">
+            <p class="sectionTag">Engineering - The Indian Dream</p>
+            <p class="sectionSubTag">Engineering was my dream, and as a Computer Science (AI ML) final-year student, I'm living it, sleeplessly. It's four years of cramming formulas you'll never use in life, fueled by chai and stress, only to face 'entry-level' jobs which by the way demand experience. After all this you become the family technician, but hey, at least you're called an engineer(Er.). Living the dream, isn't it?
+            </p>
+        </div>
+        <div class="thumbnail1">
+            <img src="image\Lights.jpg.jpeg" alt="Laptop image" class="imgFluid">
+        </div>
+    </section>
+
+    <section class="section2" id="about">
+        <div class="paras">
+            <p class="sectionTag">Portfolio</p>
+            <p class="sectionSubTag">Welcome to the creative world of a Tech Artist!
+                Welcome to my portfolio! I'm Kaif Tokare, a dedicated
+                software developer specializing in Artificial Intelligence and web development.
+                My passion lies in creating innovative solutions that bridge the
+                gap between technology and human needs. With a strong academic foundation and
+                hands-on experience in backend engineering and project management,
+                I strive to deliver impactful results that exceed expectations.</p>
+        </div>
+        <div class="thumbnail2">
+            <img src="image/pic4.jpg.jpeg" alt="Laptop image" class="imgFluid">
+        </div>
+    </section>
+
+    <section class="section3" id="about">
+        <div class="paras">
+            <p class="sectionTag">Hobbies - Travel Blogs</p>
+            <p class="sectionSubTag">
+                Welcome to kaiftokare, your virtual passport to adventure!
+                I'm also a beginner travel blogger fueled by wanderlust and armed with just my phone, capturing the
+                beauty
+                and essence of each destination I explore.
+                Through my YouTube channel, I invite you to join me on thrilling escapades, immersing yourself in the
+                sights, sounds, and flavors of different cultures. From hidden gems to iconic landmarks,
+                I strive to share the essence of each place I visit through captivating videos. Whether it's a bustling
+                city or a serene natural landscape, I'm dedicated to bringing you along on the journey,
+                inspiring you to embrace the spirit of travel. Let's embark on this incredible voyage together, one
+                destination at a time. Pack your curiosity and join me on kaiftokare!</p>
+        </div>
+        <div class="thumbnail3">
+            <img src="image/pic3.jpg.jpeg" alt="Laptop image" class="imgFluid">
+        </div>
+    </section>
+
+    <section class="section4" id="services">
+        <div class="paras">
+            <p class="sectionTag">A Part-time YouTuber</p>
+            <p class="sectionSubTag">Welcome to kaiftokare, your digital heaven for lifestyle, travel, aesthetics, and
+                daily life inspiration!
+                As a beginner YouTuber, I'm passionate about capturing the essence of moments through the lens of my
+                phone.
+                Join me on this exciting journey as I explore the diverse realms of lifestyle, sharing tips, tricks, and
+                insights to enhance your everyday experiences.
+                From breathtaking travel destinations to curated aesthetics and glimpses into my daily life, I aim to
+                ignite your imagination and encourage you to find joy in the little things.
+                Let's embark on this creative adventure together, discovering the beauty and wonder that surrounds us.
+                Welcome to kaiftokare, where every moment is a masterpiece!</p>
+        </div>
+        <div class="thumbnail4">
+            <img src="image/Youtube.jpg.jpeg" alt="Laptop image" class="imgFluid">
+        </div>
+    </section>
+
+    <div class="3Danimations">
+        <div class="scene">
+            <div class="cube">
+                <div class="face front">Engineering Things</div>
+                <div class="face back">Artist</div>
+                <div class="face right">Trekking</div>
+                <div class="face left">Photographer</div>
+                <div class="face top">Travel Blogger</div>
+                <div class="face bottom">Video Editor</div>
+            </div>
+        </div>
+
+        <div id="controls">
+            <button class="glowing-button" onclick="toggleSpin()">My Hobbies Revolve like this</button>
+        </div>
+    </div>    
+    <script src="js/resp.js"></script>                
+    
+    <div class="gallery-container">
+      <div class="scrolling-wrapper" id="scrollingWrapper">
+        <div class="scrolling-wrapper-inner" id="wrapper1">
+          <!-- Images will be inserted here -->
+        </div>
+        <div class="scrolling-wrapper-inner" id="wrapper2">
+          <!-- Duplicate images for seamless scrolling -->
+        </div>
+      </div>
+    </div>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Add your image paths here
+      const imagePaths = [
+        './image/16.jpg',
+        './image/15.jpeg',
+        './image/3.jpeg',
+        './image/4.jpeg',
+        './image/5.jpeg',
+        './image/10.jpeg'        
+      ];
+    
+      function createImageElement(src) {
+        const div = document.createElement('div');
+        div.className = 'image-item';
+        
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = 'Gallery image';
+        
+        div.appendChild(img);
+        return div;
+      }
+    
+      const wrapper1 = document.getElementById('wrapper1');
+      const wrapper2 = document.getElementById('wrapper2');
+    
+      // Populate both wrappers for seamless scrolling
+      imagePaths.forEach(path => {
+        wrapper1.appendChild(createImageElement(path));
+        wrapper2.appendChild(createImageElement(path));
+      });
+    
+      // Adjust animation speed based on number of images
+      const scrollingWrapper = document.getElementById('scrollingWrapper');
+      scrollingWrapper.style.animationDuration = `${imagePaths.length * 2}s`;
+    });
+    </script>
+    </html>
+
+  <!-- Contact Section -->
+  <section class="section5" id="contact">
+    <div class="contact-container">
+      <!-- Contact Info -->
+      <div class="contact-info">
+        <h2>Let's Connect</h2>
+        <p>Feel free to reach out if you want to collaborate with me, or simply have a chat. I'd love to hear from you!</p>
+        
+        <!-- Social Links -->
+        <div class="social-links">
+          <a href="https://facebook.com/kaif.tokare" class="social-btn facebook" title="Facebook">
+            <i>f</i>
+          </a>
+          <a href="https://instagram.com/kaiftokare" class="social-btn instagram" title="Instagram">
+            <i>in</i>
+          </a>
+          <a href="https://twitter.com/kaif_tokare" class="social-btn twitter" title="Twitter">
+            <i>X</i>
+          </a>
+          <a href="https://linkedin.com/in/kaif-tokare-877538249" class="social-btn linkedin" title="LinkedIn">
+            <i>li</i>
+          </a>
+          <a href="https://github.com/Kaiftokare19" class="social-btn github" title="GitHub">
+            <i>g</i>
+          </a>
+        </div>
+
+        <p>You can also email me directly at:<br>
+        <strong>kaiftokare19@gmail.com</strong></p>
+      </div>
+
+      <!-- Contact Form -->
+      <form class="contact-form" id="contactForm">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+
+        <div class="form-group">
+          <label for="subject">Subject</label>
+          <input type="text" id="subject" name="subject" required>
+        </div>
+
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" required></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn">Send Message</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">Message sent successfully!</div>
+
+
+<footer class="background">
+    <p class="text-footer">
+        Copyright &copy; 2025 www.kaiftokare.com - All Rights Reserved
+    </p>
+</footer>
+</body>
+</html>

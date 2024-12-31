@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>kaiftokare - A Social Nevla</title>
+</head>
+
+<body>
+    <nav class="navbar background h-nav-resp">
+        <ul class="nav-list v-class-resp">            
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="services.html"><button class="btn">Services</button></a></li>
+            <li><a href="index.html#contact">Contact Us</a></li>
+        </ul>
+        <div class="rightnav v-class-resp">                                                           
+            <input
+                    type="text"
+                    id="searchQuery"
+                    class="search-bar"
+                    placeholder="Type your search here..."
+            />
+            <button class="btn btn-sm" onclick="searchGoogle()">Search</button>                          
+            <script>
+                    function searchGoogle() {
+                        // Get the search query
+                        const query = document.getElementById("searchQuery").value.trim();
+                        
+                        // Check if the query is not empty
+                        if (query) {
+                            // Redirect to Google search with the query
+                            window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+                        } else {
+                            alert("Please enter something to search!");
+                        }
+                    }
+            </script>                       
+        </div>
+        <div class="burger">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+    </nav>
+    <section class="background servicesSection services">
+        <div class="box-main">
+
+            <div class="firsthalf">
+                <p class="text-big">kaiftokare</p>
+                <p class="text-small">Crafting visual stories</p>
+                <div class="buttons">
+                    <a href="https://www.youtube.com/channel/UCRmKUDCAjbn1EbrLYfj8l4A"><button
+                            class="btn">Subscribe</button></a>
+                    <a href="https://youtu.be/hSNM10b3j7U"><button class="btn">Watch Video</button></a>
+                </div>
+            </div>
+
+            <div class="secondhalf">
+                <img src="image/logo.jpg.jpeg" alt="Youtube Thubnail" class="glow3">
+            </div>
+        </div>
+    </section>
+    <div class="youtube">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/wXhLbcCcmzA" title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen></iframe>
+
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/jd9qk3SibxY" title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen></iframe>
+
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/irFaDRQBVlc" title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen></iframe>
+
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/PHGMZYPNXsM" title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen></iframe>
+    </div>
+    <section class="section4">
+        <div class="paras">
+            <p class="sectionTag">Youtube Journey</p>
+            <p class="sectionSubTag"> I am fortunate to be living in an era where technology and creativity go hand in
+                hand. One platform that has revolutionized the way we share our stories and experiences is YouTube. Let
+                me take you on a journey through the evolution and impact of this incredible platform.</p>
+
+            <p class="sectionSubTag">YouTube was founded in 2005 with a simple idea: to provide a space for people to
+                share and discover videos. It started as a small website, but quickly gained popularity, allowing users
+                to upload, view, and share videos with the world. Today, it has become the go-to platform for content
+                creators, vloggers, and filmmakers alike.</p>
+
+            <p class="sectionSubTag">For me, YouTube has been a game-changer. It has provided an outlet for my passion
+                for recording life and capturing moments through videography. Armed with just my phone and my
+                creativity, I embarked on my own YouTube journey, creating lifestyle vlogs and travel vlogs that
+                showcase the essence of who I am.</p>
+
+            <p class="sectionSubTag">YouTube has not only given me a platform to share my experiences but has also
+                connected me with a diverse and global audience. Through my videos, I can inspire, entertain, and
+                educate others, while also learning from their perspectives and feedback.</p>
+            
+
+            <p class="sectionSubTag">Thank you for being a part of my YouTube journey. Together, let's celebrate the
+                power of storytelling, the joy of exploration, and the beauty of life.</p>
+
+            <p class="sectionSubTag">Stay tuned for more exciting content!</p>
+
+
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="contact-container">
+            <!-- Contact Info -->
+            <div class="contact-info">
+                <h2>Let's Connect</h2>
+                <p>Feel free to reach out if you want to collaborate with me, or simply have a chat. I'd love to hear
+                    from you!</p>
+
+                <!-- Social Links -->
+                <div class="social-links">
+                    <a href="https://facebook.com/kaif.tokare" class="social-btn facebook" title="Facebook">
+                        <i>f</i>
+                    </a>
+                    <a href="https://instagram.com/kaiftokare" class="social-btn instagram" title="Instagram">
+                        <i>in</i>
+                    </a>
+                    <a href="https://twitter.com/kaif_tokare" class="social-btn twitter" title="Twitter">
+                        <i>t</i>
+                    </a>
+                    <a href="https://linkedin.com/in/kaif-tokare-877538249" class="social-btn linkedin"
+                        title="LinkedIn">
+                        <i>li</i>
+                    </a>
+                    <a href="https://github.com/Kaiftokare19" class="social-btn github" title="GitHub">
+                        <i>g</i>
+                    </a>
+                </div>
+
+                <p>You can also email me directly at:<br>
+                    <strong>kaiftokare19@gmail.com</strong>
+                </p>
+            </div>
+
+            <!-- Contact Form -->
+            <form class="contact-form" id="contactForm">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" name="subject" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">Message sent successfully!</div>
+
+    <footer class="background">
+        <p class="text-footer">
+            Copyright &copy; 2023 www.kaiftokare.com - All Rights Reserved
+        </p>
+    </footer>
+    <script src="js/resp.js"></script>
+
+</body>
+</html>
