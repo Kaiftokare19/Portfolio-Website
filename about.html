@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/style.css">
+  <title>kaiftokare - A Social Coder</title>
+</head>
+
+<body>
+  <nav class="navbar background h-nav-resp">
+    <ul class="nav-list v-class-resp">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html"><button class="btn">About</button></a></li>
+      <li><a href="services.html">CreativeZone</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+    <div class="rightnav v-class-resp">
+      <input type="text" id="searchQuery" class="search-bar" placeholder="Type your search here..." />
+      <button class="btn btn-sm" onclick="searchGoogle()">Search</button>
+      <script>
+        function searchGoogle() {
+          // Get the search query
+          const query = document.getElementById("searchQuery").value.trim();
+
+          // Check if the query is not empty
+          if (query) {
+            // Redirect to Google search with the query
+            window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+          } else {
+            alert("Please enter something to search!");
+          }
+        }
+      </script>
+    </div>
+    <div class="burger">
+      <div class="line"></div>
+      <div class="line"></div>
+      <div class="line"></div>
+    </div>
+  </nav>
+  <section class="background aboutSection about">
+    <div class="box-main">
+
+      <div class="firsthalf">
+        <p class="text-big">kaiftokare</p>
+        <p class="text-small">A Social Coder</p>
+        <div class="buttons">
+          <a href="https://www.instagram.com/kaiftokare/"><button class="btn">Instagram</button></a>
+          <a href="https://www.figma.com/files/team/1416862967744120408/recents-and-sharing?fuid=1416862965906273877"><button
+              class="btn">Figma</button></a>
+        </div>
+      </div>
+
+      <div class="secondhalf">
+        <img src="image/Logo3.png" alt="Youtube Thubnail" class="glow2">
+      </div>
+    </div>
+  </section>
+  <!-- Floating Chat Icon -->
+  <div id="chat-icon">💬</div>
+
+  <!-- Chatbot Window -->
+  <div id="chatbot">
+    <div id="chatbot-header">Crazybot</div>
+    <div id="chatbot-body"></div>
+    <div id="chatbot-footer">
+      <input type="text" id="chatbot-input" placeholder="Type your message...">
+      <button id="chatbot-send">Send</button>
+    </div>
+  </div>
+  <script>
+    // Global Variables
+    let faqData = {}; // Will store the JSON data (questions and answers)
+    let remainingQuestions = []; // Array of questions not yet asked
+    let userQuestionCount = 0;  // Count of questions asked by the user
+    let stage = 0; // 0: waiting for greeting, 1: suggestions displayed, 2: awaiting further action
+
+    const chatIcon = document.getElementById('chat-icon');
+    const chatbot = document.getElementById('chatbot');
+    const chatbotBody = document.getElementById('chatbot-body');
+    const chatbotInput = document.getElementById('chatbot-input');
+    const chatbotSend = document.getElementById('chatbot-send');
+
+    // Toggle chat window when icon is clicked
+    chatIcon.addEventListener('click', () => {
+      if (chatbot.style.display === 'none' || chatbot.style.display === '') {
+        chatbot.style.display = 'flex';
+        startConversation();
+      } else {
+        chatbot.style.display = 'none';
+      }
+    });
+
+    // Append a message bubble to the chat area
+    function addMessage(sender, text) {
+      const messageDiv = document.createElement('div');
+      messageDiv.classList.add('message');
+      if (sender === 'Bot') {
+        messageDiv.classList.add('bot-message');
+      } else {
+        messageDiv.classList.add('user-message');
+      }
+      messageDiv.textContent = text;
+      chatbotBody.appendChild(messageDiv);
+      chatbotBody.scrollTop = chatbotBody.scrollHeight;
+    }
+
+    // Start conversation by greeting the user
+    function startConversation() {
+      chatbotBody.innerHTML = ''; // Clear previous messages
+      stage = 0;
+      userQuestionCount = 0;
+      addMessage('Bot', 'Heyy, please greet me by saying "hi" to continue.');
+    }
+
+    // --- Levenshtein Distance for Fuzzy Matching ---
+    function levenshtein(a, b) {
+      const an = a ? a.length : 0;
+      const bn = b ? b.length : 0;
+      if (an === 0) return bn;
+      if (bn === 0) return an;
+      const matrix = [];
+      for (let i = 0; i <= bn; i++) { matrix[i] = [i]; }
+      for (let j = 0; j <= an; j++) { matrix[0][j] = j; }
+      for (let i = 1; i <= bn; i++) {
+        for (let j = 1; j <= an; j++) {
+          if (b.charAt(i - 1).toLowerCase() === a.charAt(j - 1).toLowerCase()) {
+            matrix[i][j] = matrix[i - 1][j - 1];
+          } else {
+            matrix[i][j] = Math.min(
+              matrix[i - 1][j - 1] + 1,
+              matrix[i][j - 1] + 1,
+              matrix[i - 1][j] + 1
+            );
+          }
+        }
+      }
+      return matrix[bn][an];
+    }
+
+    // Check if input is a greeting ("hi" or "hello") with allowance for a typo
+    function isGreeting(input) {
+      const greetings = ['hi', 'hey', 'hello'];
+      for (let greet of greetings) {
+        if (levenshtein(input.toLowerCase(), greet) <= 1) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    // Find the best matching question among the remaining ones
+    function findMatchingQuestion(input) {
+      let bestMatch = null;
+      let bestDistance = Infinity;
+      for (let q of remainingQuestions) {
+        let distance = levenshtein(input.toLowerCase(), q.toLowerCase());
+        if (distance < bestDistance) {
+          bestDistance = distance;
+          bestMatch = q;
+        }
+      }
+      // Accept a match if the distance is within an acceptable threshold
+      if (bestMatch && bestDistance <= Math.max(1, bestMatch.length / 3)) {
+        return bestMatch;
+      }
+      return null;
+    }
+
+    // Display the top 3 question suggestions (from remaining questions)
+    function displaySuggestions() {
+      // Remove any existing suggestion buttons (if any)
+      let existingBtns = document.querySelectorAll('.question-btn, .option-container');
+      existingBtns.forEach(btn => btn.remove());
+
+      // If there are no remaining questions, tell the user
+      if (remainingQuestions.length === 0) {
+        addMessage('Bot', 'No more questions available. Thank you!');
+        return;
+      }
+
+      // Show only the top 3 suggestions
+      const suggestions = remainingQuestions.slice(0, 3);
+      addMessage('Bot', 'Here are some questions you can ask:');
+      suggestions.forEach(question => {
+        const btn = document.createElement('button');
+        btn.classList.add('question-btn');
+        btn.textContent = question;
+        btn.addEventListener('click', () => {
+          processUserQuestion(question);
+        });
+        chatbotBody.appendChild(btn);
+      });
+      chatbotBody.scrollTop = chatbotBody.scrollHeight;
+    }
+
+    // Process the user’s question input (whether typed or selected)
+    function processUserQuestion(input) {
+      // Display the user's message on the right
+      addMessage('User', input);
+
+      // Try to match the question among remaining questions
+      let matchedQuestion;
+      if (remainingQuestions.includes(input)) {
+        matchedQuestion = input;
+      } else {
+        matchedQuestion = findMatchingQuestion(input);
+      }
+
+      // If a match is found, display the answer and remove that question from suggestions
+      if (matchedQuestion) {
+        addMessage('Bot', faqData[matchedQuestion]);
+        // Remove the answered question from the remaining list
+        remainingQuestions = remainingQuestions.filter(q => q !== matchedQuestion);
+        userQuestionCount++;
+      } else {
+        addMessage('Bot', 'This question is irrelevant!!!');
+      }
+
+      // Decide what to do next
+      if (userQuestionCount > 0 && userQuestionCount % 5 === 0 && remainingQuestions.length > 0) {
+        // Ask if the user wants to continue
+        askToContinue();
+      } else {
+        // Show next suggestions after a short delay
+        setTimeout(() => {
+          displaySuggestions();
+        }, 500);
+      }
+    }
+
+    // Ask the user if they want to ask more questions
+    function askToContinue() {
+      // Remove any existing suggestion buttons
+      let existingBtns = document.querySelectorAll('.question-btn, .option-container');
+      existingBtns.forEach(btn => btn.remove());
+
+      addMessage('Bot', 'Would you like to ask more questions?');
+      const optionContainer = document.createElement('div');
+      optionContainer.classList.add('option-container');
+
+      const yesBtn = document.createElement('button');
+      yesBtn.classList.add('option-btn');
+      yesBtn.textContent = 'Yes';
+      yesBtn.addEventListener('click', () => {
+        addMessage('User', 'Yes');
+        setTimeout(() => { displaySuggestions(); }, 300);
+      });
+
+      const noBtn = document.createElement('button');
+      noBtn.classList.add('option-btn');
+      noBtn.textContent = 'No';
+      noBtn.addEventListener('click', () => {
+        addMessage('User', 'No');
+        addMessage('Bot', 'Okay, have a great day!');
+      });
+
+      optionContainer.appendChild(yesBtn);
+      optionContainer.appendChild(noBtn);
+      chatbotBody.appendChild(optionContainer);
+      chatbotBody.scrollTop = chatbotBody.scrollHeight;
+    }
+
+    // Event listener for the send button
+    chatbotSend.addEventListener('click', () => {
+      const userInput = chatbotInput.value.trim();
+      if (userInput === '') return;
+      chatbotInput.value = '';
+
+      // Stage 0: waiting for greeting
+      if (stage === 0) {
+        if (isGreeting(userInput)) {
+          addMessage('User', userInput);
+          stage = 1;
+          addMessage('Bot', 'Great! Let’s get started.');
+          // Display suggestions after initializing remainingQuestions
+          setTimeout(() => { displaySuggestions(); }, 500);
+        } else {
+          addMessage('Bot', 'Please greet me by saying "hi" to continue.');
+        }
+      } else {
+        // Process user input as a question
+        processUserQuestion(userInput);
+      }
+    });
+
+    // Allow Enter key to trigger the send button
+    chatbotInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        chatbotSend.click();
+      }
+    });
+
+    // Load FAQ data from JSON file and initialize remainingQuestions
+    fetch('faq.json')
+      .then(response => response.json())
+      .then(data => {
+        faqData = data;
+        remainingQuestions = Object.keys(faqData);
+      })
+      .catch(error => console.error('Error loading FAQ data:', error));
+
+  </script>
+  <section class="section1 aboutreel">
+    <div class="paras">
+      <p class="sectionTag">About My Video Editing Passion</p>
+      <p class="sectionSubTag">
+        As you know, an engineering student does everything except engineering! While everyone was learning
+        double and triple integration, I was exploring frames and lighting for videography.
+        It’s not just a hobby—it’s something deeply close to my heart, something I can't live without.
+        The most fascinating part of capturing and editing videos is knowing that I’ve created something
+        unique, a perspective no one else on Earth would have imagined.
+      </p>
+      <p class="sectionSubTag"> Apps : VN, VITA, Prequel, DaVinci Resolve, Capcut, Wondershare Filmora, etc</p>
+    </div>
+    <div class="vidAbout">
+      <!-- mp4, WebM, and Ogg -->
+      <video controls loop>
+        <source src="video/vid.mp4.mp4">
+      </video>
+    </div>
+  </section>
+
+
+
+
+
+
+
+
+  <div class="container-2">
+    <div class="grid-item">
+      <img src="image/Canva.png" alt="Robot">
+    </div>
+    <div class="grid-item dark text">
+      <h2 class="text-big2">UI/UX Enthusiast</h2>
+      <p class="text-small">I use Canva & Figma to create innovative and futuristic UI/UX of various Apps and Websites.
+        I like to make 3D elements and
+        as I have added at my Home page. And also have worked on React and Node.js applications.
+      </p>
+      <div class="buttons">
+        <a
+          href="https://www.canva.com/design/DAGfGvOEeWE/fEeR50t-MGJIfyXi4X1SSA/edit?utm_content=DAGfGvOEeWE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton"><button
+            class="btn">Canva</button></a>
+        <a href="https://www.figma.com/files/team/1416862967744120408/recents-and-sharing?fuid=1416862965906273877"><button
+            class="btn">Figma</button></a>
+      </div>
+    </div>
+
+    <div class="grid-item dark text">
+      <h2 class="text-big2">Bike Enthusiast</h2>
+      <p class="text-small">Bikes aren’t just a mode of transport for me—they're a way of life!
+        While I haven’t been on an ultra-long ride yet, my dream begins and ends with a bike trip
+        to Ladakh. For now, my CB Hornet 160R keeps the adrenaline pumping—revving high with
+        the wings of Honda! </p>
+      <div class="buttons">
+        <a href="https://www.instagram.com/p/DCzOy4uT8Aa/?igsh=Mm94d3g0aTR2eWtr "><button class="btn">Bike
+            Trip</button></a>
+      </div>
+    </div>
+    <div class="grid-item">
+      <img src="image/Bike.png" alt="Cards">
+    </div>
+
+    <div class="grid-item">
+      <img src="image2/Car Enthu...png" alt="Document">
+    </div>
+    <div class="grid-item dark text">
+      <h2 class="text-big2">Car Enthusiast</h2>
+      <p class="text-small">Cars aren’t just machines to me—they're a passion, an obsession!
+        I have an undying love for manual transmissions and the raw power of diesel engines.
+        There’s nothing quite like the thrill of a long drive—500 to 600 km or more—feeling the engine
+        roar and the road unfold ahead. And let’s be clear—it’s not just a car… it’s a CAARRRRRRRRRR!
+      </p>
+      <div class="buttons">
+        <a href="https://www.instagram.com/reel/C7rMHTLCQak/?igsh=MWN5a2tkdDUyZm5tNQ=="><button class="btn">Car
+            Trip</button></a>
+      </div>
+    </div>
+
+    <div class="grid-item dark text">
+      <h2 class="text-big2">Tech Enthusiast</h2>
+      <p class="text-small">Now comes the part that fuels my love for bikes and cars—my job,
+        which pays me to burn gas! But beyond that, I truly love what I do—coding and developing
+        cutting-edge software using the most relevant tech stack of the time (because, let’s be honest,
+        it changes every minute!).
+      </p>
+      <div class="buttons">
+        <a href="https://www.linkedin.com/in/kaif-tokare-877538249/"><button class="btn">Code Trip</button></a>
+      </div>
+    </div>
+    <div class="grid-item">
+      <img src="image/Tech.png" alt="Coffee">
+    </div>
+  </div>
+
+  <!--
+<section class="section2 aboutreel">
+  <div class="paras">
+    <p class="sectionTag">How I started Video Editing ?</p>
+    <p class="sectionSubTag"> I have always had a passion for recording life's beautiful moments and sharing them with
+      the world through my YouTube channel. Let me take you on a journey of how I discovered and developed my skills
+      in video editing.</p>
+
+    <p class="sectionSubTag">It all started when I got my hands on a camera and began capturing the essence of my
+      daily life and adventures. As I delved deeper into the world of videography, I realized that capturing footage
+      was just the beginning. I wanted to bring my videos to life, to create engaging and captivating content that
+      resonated with viewers.</p>
+
+    <p class="sectionSubTag">This realization sparked my curiosity about video editing. I embarked on a quest to learn
+      the art of manipulating footage, adding effects, and crafting compelling narratives. With the power of
+      technology at my fingertips, I explored various video editing software and techniques, eager to unlock their
+      potential.</p>
+  </div>
+  <div class="videditAbout">
+  -->
+  <!-- mp4, WebM, and Ogg -->
+  <!--
+    <video controls loop>
+      <source src="video/vid22.mp4.mp4">
+    </video>
+    <video controls loop>
+      <source src="video/vidGlimpse.mp4.mp4">
+    </video>
+    <video controls loop>
+      <source src="video/vid21.mp4.mp4">
+    </video>
+  </div>
+</section>
+
+<section class="section4 aboutreel">
+  <div class="paras">
+    <p class="sectionTag">How I started Photography ?</p>
+    <p class="sectionSubTag">My love for capturing life's precious moments through photography has become an integral
+      part of who I am. Let me take you on a journey of how I discovered and developed my passion for photography and
+      photo editing.</p>
+
+    <p class="sectionSubTag">It all began with a simple desire to record the beauty and essence of life. Armed with my
+      camera, I started capturing the moments that resonated with me—the vibrant colors, the fleeting expressions, and
+      the unique stories that unfolded around me. Photography became a way for me to freeze time and create lasting
+      memories.</p>
+
+    <p class="sectionSubTag">As I delved deeper into the world of photography, I realized that capturing a great photo
+      was just the beginning. I wanted to enhance and elevate the visual experience, to bring out the true essence of
+      the moments I captured. This led me to explore the art of photo editing.</p>
+
+    <p class="sectionSubTag">Thank you for joining me on this incredible journey. Stay tuned for more captivating
+      moments and visual stories as I continue to capture life, one frame at a time.</p>
+  </div>
+  <div class="vidAbout">
+  -->
+  <!-- mp4, WebM, and Ogg -->
+  <!--
+    <video controls loop>
+      <source src="video/click.mp4.mp4">
+    </video>
+  </div>
+</section>
+-->
+
+  <section class="section5 shining-section">
+    <p class="text-Achieve">Projects</p>
+  </section>
+
+  <section class="section2" id="about">
+    <div class="paras">
+      <p class="sectionTag">MyTrain:A Real-time Vacancy Monitoring System for Local Trains</p>
+      <p class="sectionSubTag">This app helps passengers make informed decisions by showing the
+        vacancy percentage of each individual train coach, improving their journey experience.
+        The occupancy status is displayed using a color-coded system—Red for highly crowded coaches
+        and Green for less crowded ones.
+        <span class="more-text">
+          How it works: It is a Flutter-based application that processes real-time
+          footage from existing CCTV cameras in local trains. A Deep Learning model detects
+          heads in the footage, and based on the head count, a formula calculates the percentage
+          vacancy of each coach. This is applied to specific frames to ensure real-time accuracy.
+          The results are displayed to users using a simple color-coded system—Red means the
+          coach is full, Yellow indicates moderate space, and Green means the coach is partially
+          or completely empty.</span>
+        <span class="read-more" onclick="toggleText()">Read More</span>
+
+      </p>
+      <div class="buttons">
+        <a href="https://github.com/Kaiftokare19/Trainspacer"><button class="btn">Github Repo</button></a>
+      </div>
+    </div>
+    <div class="thumbnail1">
+      <img src="image/Train.png" alt="MyTrain's Img" class="imgFluid">
+    </div>
+  </section>
+
+  <section class="section2 shining-section2" id="about">
+    <div class="paras">
+      <p class="sectionTag">Mr.Doctor : A (Cardio+Neuro+Dermato)logist</p>
+      <p class="sectionSubTag">This is a ChatBot powered by LLaMA 2, a Large Language Model (LLM)
+        by Meta, fine-tuned on medical healthcare data sourced from Kaggle.
+        The front-end is built using HTML, CSS, and JavaScript, with an alternative version
+        developed in Next.js.
+        We hosted a server for the LLaMA 2 model and generated an API key using Ngrok,
+        which is integrated into the front-end via JavaScript. To ensure accessibility across
+        multiple devices (both mobile and PC), we leveraged Ngrok once again for seamless connectivity. 
+      </p>
+      <div class="buttons">
+        <a href=""><button class="btn">Github Repo-Coming Soon</button></a>
+      </div>
+    </div>
+    <div class="image-container thumbnail1">
+      <img src="image2/New-Proj1.png" alt="MyTrain's Img" class="imgFluid">
+      <span class="new-tag">NEW</span>
+    </div>
+  </section>
+
+  <div class="backtotop">
+    <a href="about.html" class="nav-link"><< Back to Top</a>
+    <a href="services.html" class="nav-link">Next Page >></a>
+  </div>
+
+  <!-- Contact Section -->
+  <section id="contact">
+    <div class="contact-container">
+      <!-- Contact Info -->
+      <div class="contact-info">
+        <h2>Let's Connect</h2>
+        <p>Feel free to reach out if you want to collaborate with me, or simply have a chat. I'd love to hear from you!
+        </p>
+
+        <!-- Social Links -->
+        <div class="social-links">
+          <a href="https://facebook.com/kaif.tokare" class="social-btn facebook" title="Facebook">
+            <i>f</i>
+          </a>
+          <a href="https://instagram.com/kaiftokare" class="social-btn instagram" title="Instagram">
+            <i>in</i>
+          </a>
+          <a href="https://twitter.com/kaif_tokare" class="social-btn twitter" title="Twitter">
+            <i>t</i>
+          </a>
+          <a href="https://linkedin.com/in/kaif-tokare-877538249" class="social-btn linkedin" title="LinkedIn">
+            <i>li</i>
+          </a>
+          <a href="https://github.com/Kaiftokare19" class="social-btn github" title="GitHub">
+            <i>g</i>
+          </a>
+        </div>
+
+        <p>You can also email me directly at:<br>
+          <strong>kaiftokare19@gmail.com</strong>
+        </p>
+      </div>
+
+
+      <!-- Contact Form -->
+      <form class="contact-form" id="contactForm">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+
+        <div class="form-group">
+          <label for="subject">Subject</label>
+          <input type="text" id="subject" name="subject" required>
+        </div>
+
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" required></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn">Send Message</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">Message sent successfully!</div>
+  <footer class="background">
+    <p class="text-footer">
+      Copyright &copy; 2025 www.kaiftokare.com - All Rights Reserved
+    </p>
+  </footer>
+  <script src="js/resp.js"></script>
+</body>
+
+</html>
