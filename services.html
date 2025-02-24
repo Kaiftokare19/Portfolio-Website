@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>kaiftokare - A Social Coder</title>
+</head>
+
+<body>
+    <nav class="navbar background h-nav-resp">
+        <ul class="nav-list v-class-resp">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="services.html"><button class="btn">CreativeZone</button></a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+        <div class="rightnav v-class-resp">
+            <input type="text" id="searchQuery" class="search-bar" placeholder="Type your search here..." />
+            <button class="btn btn-sm" onclick="searchGoogle()">Search</button>
+            <script>
+                function searchGoogle() {
+                    // Get the search query
+                    const query = document.getElementById("searchQuery").value.trim();
+
+                    // Check if the query is not empty
+                    if (query) {
+                        // Redirect to Google search with the query
+                        window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+                    } else {
+                        alert("Please enter something to search!");
+                    }
+                }
+            </script>
+        </div>
+        <div class="burger">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+    </nav>
+    <section class="background servicesSection services">
+        <div class="box-main">
+
+            <div class="firsthalf">
+                <p class="text-big">kaiftokare</p>
+                <p class="text-small">Crafting visual stories</p>
+                <div class="buttons">
+                    <a href="https://www.youtube.com/channel/UCRmKUDCAjbn1EbrLYfj8l4A"><button
+                            class="btn">Subscribe</button></a>
+                    <a href="https://youtu.be/hSNM10b3j7U"><button class="btn">Watch Video</button></a>
+                </div>
+            </div>
+
+            <div class="secondhalf">
+                <img src="image2/logo4.jpg" alt="Youtube Thubnail" class="glow3">
+            </div>
+        </div>
+    </section>
+    <div class="youtube">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/wXhLbcCcmzA" title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen></iframe>
+
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/jd9qk3SibxY" title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen></iframe>
+
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/irFaDRQBVlc" title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen></iframe>
+
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/PHGMZYPNXsM" title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen></iframe>
+    </div>
+    <!-- Floating Chat Icon -->
+    <div id="chat-icon">💬</div>
+
+    <!-- Chatbot Window -->
+    <div id="chatbot">
+        <div id="chatbot-header">Crazybot</div>
+        <div id="chatbot-body"></div>
+        <div id="chatbot-footer">
+            <input type="text" id="chatbot-input" placeholder="Type your message...">
+            <button id="chatbot-send">Send</button>
+        </div>
+    </div>
+    <script>
+        // Global Variables
+        let faqData = {}; // Will store the JSON data (questions and answers)
+        let remainingQuestions = []; // Array of questions not yet asked
+        let userQuestionCount = 0;  // Count of questions asked by the user
+        let stage = 0; // 0: waiting for greeting, 1: suggestions displayed, 2: awaiting further action
+
+        const chatIcon = document.getElementById('chat-icon');
+        const chatbot = document.getElementById('chatbot');
+        const chatbotBody = document.getElementById('chatbot-body');
+        const chatbotInput = document.getElementById('chatbot-input');
+        const chatbotSend = document.getElementById('chatbot-send');
+
+        // Toggle chat window when icon is clicked
+        chatIcon.addEventListener('click', () => {
+            if (chatbot.style.display === 'none' || chatbot.style.display === '') {
+                chatbot.style.display = 'flex';
+                startConversation();
+            } else {
+                chatbot.style.display = 'none';
+            }
+        });
+
+        // Append a message bubble to the chat area
+        function addMessage(sender, text) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            if (sender === 'Bot') {
+                messageDiv.classList.add('bot-message');
+            } else {
+                messageDiv.classList.add('user-message');
+            }
+            messageDiv.textContent = text;
+            chatbotBody.appendChild(messageDiv);
+            chatbotBody.scrollTop = chatbotBody.scrollHeight;
+        }
+
+        // Start conversation by greeting the user
+        function startConversation() {
+            chatbotBody.innerHTML = ''; // Clear previous messages
+            stage = 0;
+            userQuestionCount = 0;
+            addMessage('Bot', 'Heyy, please greet me by saying "hi" to continue.');
+        }
+
+        // --- Levenshtein Distance for Fuzzy Matching ---
+        function levenshtein(a, b) {
+            const an = a ? a.length : 0;
+            const bn = b ? b.length : 0;
+            if (an === 0) return bn;
+            if (bn === 0) return an;
+            const matrix = [];
+            for (let i = 0; i <= bn; i++) { matrix[i] = [i]; }
+            for (let j = 0; j <= an; j++) { matrix[0][j] = j; }
+            for (let i = 1; i <= bn; i++) {
+                for (let j = 1; j <= an; j++) {
+                    if (b.charAt(i - 1).toLowerCase() === a.charAt(j - 1).toLowerCase()) {
+                        matrix[i][j] = matrix[i - 1][j - 1];
+                    } else {
+                        matrix[i][j] = Math.min(
+                            matrix[i - 1][j - 1] + 1,
+                            matrix[i][j - 1] + 1,
+                            matrix[i - 1][j] + 1
+                        );
+                    }
+                }
+            }
+            return matrix[bn][an];
+        }
+
+        // Check if input is a greeting ("hi" or "hello") with allowance for a typo
+        function isGreeting(input) {
+            const greetings = ['hi','hey', 'hello'];
+            for (let greet of greetings) {
+                if (levenshtein(input.toLowerCase(), greet) <= 1) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // Find the best matching question among the remaining ones
+        function findMatchingQuestion(input) {
+            let bestMatch = null;
+            let bestDistance = Infinity;
+            for (let q of remainingQuestions) {
+                let distance = levenshtein(input.toLowerCase(), q.toLowerCase());
+                if (distance < bestDistance) {
+                    bestDistance = distance;
+                    bestMatch = q;
+                }
+            }
+            // Accept a match if the distance is within an acceptable threshold
+            if (bestMatch && bestDistance <= Math.max(1, bestMatch.length / 3)) {
+                return bestMatch;
+            }
+            return null;
+        }
+
+        // Display the top 3 question suggestions (from remaining questions)
+        function displaySuggestions() {
+            // Remove any existing suggestion buttons (if any)
+            let existingBtns = document.querySelectorAll('.question-btn, .option-container');
+            existingBtns.forEach(btn => btn.remove());
+
+            // If there are no remaining questions, tell the user
+            if (remainingQuestions.length === 0) {
+                addMessage('Bot', 'No more questions available. Thank you!');
+                return;
+            }
+
+            // Show only the top 3 suggestions
+            const suggestions = remainingQuestions.slice(0, 3);
+            addMessage('Bot', 'Here are some questions you can ask:');
+            suggestions.forEach(question => {
+                const btn = document.createElement('button');
+                btn.classList.add('question-btn');
+                btn.textContent = question;
+                btn.addEventListener('click', () => {
+                    processUserQuestion(question);
+                });
+                chatbotBody.appendChild(btn);
+            });
+            chatbotBody.scrollTop = chatbotBody.scrollHeight;
+        }
+
+        // Process the user’s question input (whether typed or selected)
+        function processUserQuestion(input) {
+            // Display the user's message on the right
+            addMessage('User', input);
+
+            // Try to match the question among remaining questions
+            let matchedQuestion;
+            if (remainingQuestions.includes(input)) {
+                matchedQuestion = input;
+            } else {
+                matchedQuestion = findMatchingQuestion(input);
+            }
+
+            // If a match is found, display the answer and remove that question from suggestions
+            if (matchedQuestion) {
+                addMessage('Bot', faqData[matchedQuestion]);
+                // Remove the answered question from the remaining list
+                remainingQuestions = remainingQuestions.filter(q => q !== matchedQuestion);
+                userQuestionCount++;
+            } else {
+                addMessage('Bot', 'This question is irrelevant!!!');
+            }
+
+            // Decide what to do next
+            if (userQuestionCount > 0 && userQuestionCount % 5 === 0 && remainingQuestions.length > 0) {
+                // Ask if the user wants to continue
+                askToContinue();
+            } else {
+                // Show next suggestions after a short delay
+                setTimeout(() => {
+                    displaySuggestions();
+                }, 500);
+            }
+        }
+
+        // Ask the user if they want to ask more questions
+        function askToContinue() {
+            // Remove any existing suggestion buttons
+            let existingBtns = document.querySelectorAll('.question-btn, .option-container');
+            existingBtns.forEach(btn => btn.remove());
+
+            addMessage('Bot', 'Would you like to ask more questions?');
+            const optionContainer = document.createElement('div');
+            optionContainer.classList.add('option-container');
+
+            const yesBtn = document.createElement('button');
+            yesBtn.classList.add('option-btn');
+            yesBtn.textContent = 'Yes';
+            yesBtn.addEventListener('click', () => {
+                addMessage('User', 'Yes');
+                setTimeout(() => { displaySuggestions(); }, 300);
+            });
+
+            const noBtn = document.createElement('button');
+            noBtn.classList.add('option-btn');
+            noBtn.textContent = 'No';
+            noBtn.addEventListener('click', () => {
+                addMessage('User', 'No');
+                addMessage('Bot', 'Okay, have a great day!');
+            });
+
+            optionContainer.appendChild(yesBtn);
+            optionContainer.appendChild(noBtn);
+            chatbotBody.appendChild(optionContainer);
+            chatbotBody.scrollTop = chatbotBody.scrollHeight;
+        }
+
+        // Event listener for the send button
+        chatbotSend.addEventListener('click', () => {
+            const userInput = chatbotInput.value.trim();
+            if (userInput === '') return;
+            chatbotInput.value = '';
+
+            // Stage 0: waiting for greeting
+            if (stage === 0) {
+                if (isGreeting(userInput)) {
+                    addMessage('User', userInput);
+                    stage = 1;
+                    addMessage('Bot', 'Great! Let’s get started.');
+                    // Display suggestions after initializing remainingQuestions
+                    setTimeout(() => { displaySuggestions(); }, 500);
+                } else {
+                    addMessage('Bot', 'Please greet me by saying "hi" to continue.');
+                }
+            } else {
+                // Process user input as a question
+                processUserQuestion(userInput);
+            }
+        });
+
+        // Allow Enter key to trigger the send button
+        chatbotInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                chatbotSend.click();
+            }
+        });
+
+        // Load FAQ data from JSON file and initialize remainingQuestions
+        fetch('faq.json')
+            .then(response => response.json())
+            .then(data => {
+                faqData = data;
+                remainingQuestions = Object.keys(faqData);
+            })
+            .catch(error => console.error('Error loading FAQ data:', error));
+
+    </script>
+
+    <section class="section4">
+        <div class="paras">
+            <p class="sectionTag">My Youtube Journey</p>
+            <p class="sectionSubTag">
+                As an engineering student, it almost feels mandatory to either dive into fitness 
+                or start creating content and blogs (yes, I’m totally stereotyping!). 
+                My passion for videography and editing naturally led me to YouTube, where I 
+                create videos—not for fame, but simply to leave behind a few digital footprints 
+                that will stay with me forever.
+                For me, it’s all about capturing memories—moments I can re-live anytime, 
+                share with my family, and reminisce about how things unfolded back then.
+            </p>
+            <p class="sectionSubTag">
+                Though they are quite long and also may not have the highest quality, but the only thing they have is soul which I guess 
+                would be sufficient enough to give your time for.
+            </p>
+            <p class="sectionSubTag">
+                Thank You !!!
+            </p>
+
+        </div>
+    </section>
+  
+    <section class="section7 shining-section" id="about">
+        <div class="paras">
+            <p class="sectionTag">My Creative Zone</p>
+            <p class="sectionSubTag text0">Beyond everything in my portfolio, the one thing that 
+                truly gives me satisfaction is my love for traveling. It has always been my core 
+                source of happiness. I love exploring new places with the people I cherish. 
+                For me, the destination doesn’t matter as much as the journey itself—the fun we 
+                have and the memories we create along the way.
+                I’m passionate about trekking and discovering hidden gems like secluded waterfalls 
+                and unexplored trails. I’ve trekked to places like Sondai Fort and Karnala, visited 
+                breathtaking waterfalls like Adoshi and Kharghar, and explored hill stations such as 
+                Matheran and Dandeli. My travels also take me to religious destinations like Ajmer and 
+                Gulbarga.
+                And of course, being in Mumbai, visiting Marine Drive, Gateway of India, and CSMT isn’t 
+                just a choice—it’s a duty! Recently, I spent Christmas Eve 2024 in Goa, 
+                exploring beaches and indulging in local cuisines. For me, travel is a never-ending 
+                adventure—we just plan and go, because at the end of the day, only the unplanned trips 
+                truly happen!
+            </p>
+        </div>
+        <div class="image-slider">
+            <div class="image-track">
+                <img src="image2/01.png" alt="Image 1">
+                <img src="image2/02.png" alt="Image 2">
+                <img src="image2/08.jpg" alt="Image 3">
+                <img src="image2/09.jpg" alt="Image 4">
+                <img src="image2/010.jpg" alt="Image 5">
+                <img src="image2/003.png" alt="Image 6">
+                <img src="image2/004.png" alt="Image 7">
+                <img src="image2/005.png" alt="Image 8">
+                <img src="image2/006.png" alt="Image 9">
+                <img src="image2/008.png" alt="Image 10">
+            </div>
+        </div>
+    </section>
+
+    <div class="backtotop">
+        <a href="services.html" class="nav-link"> << Back to Top</a>
+        <a href="index.html" class="nav-link">Next Page >></a>
+    </div>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="contact-container">
+            <!-- Contact Info -->
+            <div class="contact-info">
+                <h2>Let's Connect</h2>
+                <p>Feel free to reach out if you want to collaborate with me, or simply have a chat. I'd love to hear
+                    from you!</p>
+
+                <!-- Social Links -->
+                <div class="social-links">
+                    <a href="https://facebook.com/kaif.tokare" class="social-btn facebook" title="Facebook">
+                        <i>f</i>
+                    </a>
+                    <a href="https://instagram.com/kaiftokare" class="social-btn instagram" title="Instagram">
+                        <i>in</i>
+                    </a>
+                    <a href="https://twitter.com/kaif_tokare" class="social-btn twitter" title="Twitter">
+                        <i>t</i>
+                    </a>
+                    <a href="https://linkedin.com/in/kaif-tokare-877538249" class="social-btn linkedin"
+                        title="LinkedIn">
+                        <i>li</i>
+                    </a>
+                    <a href="https://github.com/Kaiftokare19" class="social-btn github" title="GitHub">
+                        <i>g</i>
+                    </a>
+                </div>
+
+                <p>You can also email me directly at:<br>
+                    <strong>kaiftokare19@gmail.com</strong>
+                </p>
+            </div>
+
+            <!-- Contact Form -->
+            <form class="contact-form" id="contactForm">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" name="subject" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">Message sent successfully!</div>
+
+    <footer class="background">
+        <p class="text-footer">
+            Copyright &copy; 2025 www.kaiftokare.com - All Rights Reserved
+        </p>
+    </footer>
+    <script src="js/resp.js"></script>
+
+</body>
+</html>
