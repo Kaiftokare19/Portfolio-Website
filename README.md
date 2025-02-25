@@ -1,3 +1,4 @@
+![Thumbnail-Image](image.png)
 # 🚀 Portfolio Website
 
 Welcome to my *Portfolio Website!* This website serves as a comprehensive representation of my *resume, skills, achievements, and personal interests. It is built using **HTML, CSS, and JavaScript* and features an interactive chatbot that responds based on a predefined JSON file.
