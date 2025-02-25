@@ -42,37 +42,6 @@ Welcome to my *Portfolio Website!* This website serves as a comprehensive repres
 
 ---
 
-## 🚀 Deployment on GitHub Pages
-
-Follow these steps to deploy your *portfolio website* on GitHub Pages:
-
-### 🛠 1. Create a GitHub Repository
-- Navigate to [GitHub](https://github.com/) and *create a new repository*.
-- Name it appropriately (e.g., my-portfolio).
-
-### 📂 2. Push Your Code to GitHub
-bash
-git init
-git remote add origin https://github.com/your-username/my-portfolio.git
-git add .
-git commit -m "Initial commit"
-git push -u origin main
-
-
-### 🌍 3. Enable GitHub Pages
-- Go to your *repository settings*.
-- Scroll down to the *GitHub Pages* section.
-- Select the *main branch* (or gh-pages if you use a separate deployment branch).
-- Save and wait for the deployment.
-
-### 🔗 4. Access Your Portfolio
-- Your site will be available at:
-
-https://your-username.github.io/my-portfolio/
-
-
----
-
 ## 🔮 Future Enhancements
 - *Make the Contact Form Functional* to allow direct communication.
 - *Enhance Chatbot Capabilities* for improved user experience.
