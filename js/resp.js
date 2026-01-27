@@ -51,18 +51,18 @@ document.addEventListener('mouseup', () => {
 });
 
 //For read-more toggle 
-function toggleText() {
-  let moreText = document.querySelector(".more-text");
-  let readMore = document.querySelector(".read-more");
+function toggleText(id, btn) {
+  const moreText = document.getElementById(id);
 
-  if (moreText.style.display === "none" || moreText.style.display === "") {
-      moreText.style.display = "inline";
-      readMore.textContent = " Read Less";
+  if (moreText.style.display === "inline") {
+    moreText.style.display = "none";
+    btn.textContent = " Read More";
   } else {
-      moreText.style.display = "none";
-      readMore.textContent = " Read More";
+    moreText.style.display = "inline";
+    btn.textContent = " Read Less";
   }
 }
+
 
 
 //For Effect

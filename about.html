@@ -324,13 +324,6 @@
     </div>
   </section>
 
-
-
-
-
-
-
-
   <div class="container-2">
     <div class="grid-item">
       <img src="image/Canva.png" alt="Robot">
@@ -470,18 +463,17 @@
       <p class="sectionTag">MyTrain:A Real-time Vacancy Monitoring System for Local Trains</p>
       <p class="sectionSubTag">This app helps passengers make informed decisions by showing the
         vacancy percentage of each individual train coach, improving their journey experience.
-        The occupancy status is displayed using a color-coded system—Red for highly crowded coaches
+        The occupancy status is displayed using a color-coded system : Red for highly crowded coaches
         and Green for less crowded ones.
-        <span class="more-text">
+        <span class="more-text" id="more-mytrain">
           How it works: It is a Flutter-based application that processes real-time
           footage from existing CCTV cameras in local trains. A Deep Learning model detects
           heads in the footage, and based on the head count, a formula calculates the percentage
           vacancy of each coach. This is applied to specific frames to ensure real-time accuracy.
-          The results are displayed to users using a simple color-coded system—Red means the
+          The results are displayed to users using a simple color-coded system : Red means the
           coach is full, Yellow indicates moderate space, and Green means the coach is partially
           or completely empty.</span>
-        <span class="read-more" onclick="toggleText()">Read More</span>
-
+        <span class="read-more" onclick="toggleText('more-mytrain', this)">Read More</span>
       </p>
       <div class="buttons">
         <a href="https://github.com/Kaiftokare19/Trainspacer"><button class="btn">Github Repo</button></a>
@@ -492,23 +484,51 @@
     </div>
   </section>
 
-  <section class="section2 shining-section2" id="about">
+  <section class="section2" id="about">
     <div class="paras">
       <p class="sectionTag">Mr.Doctor : A (Cardio+Neuro+Dermato)logist</p>
-      <p class="sectionSubTag">This is a ChatBot powered by LLaMA 2, a Large Language Model (LLM)
-        by Meta, fine-tuned on medical healthcare data sourced from Kaggle.
-        The front-end is built using HTML, CSS, and JavaScript, with an alternative version
-        developed in Next.js.
-        We hosted a server for the LLaMA 2 model and generated an API key using Ngrok,
-        which is integrated into the front-end via JavaScript. To ensure accessibility across
-        multiple devices (both mobile and PC), we leveraged Ngrok once again for seamless connectivity. 
-      </p>
+      <p class="sectionSubTag">
+  This is a ChatBot powered by LLaMA 2, a Large Language Model (LLM)
+  by Meta, fine-tuned on medical healthcare data sourced from Kaggle.
+  <span class="more-text" id="more-mrdoctor">
+    The front-end is built using HTML, CSS, and JavaScript, with an alternative version
+    developed in Next.js. We hosted a server for the LLaMA 2 model and generated an API
+    key using Ngrok, which is integrated into the front-end via JavaScript. To ensure
+    accessibility across multiple devices (both mobile and PC), we leveraged Ngrok
+    once again for seamless connectivity.
+  </span>
+  <span class="read-more" onclick="toggleText('more-mrdoctor', this)">Read More</span>
+</p>
       <div class="buttons">
         <a href="https://github.com/Kaiftokare19/AI-MCA"><button class="btn">Github Repo</button></a>
       </div>
     </div>
+    <div class="thumbnail1">
+      <img src="image2/New-Proj1.png" alt="Mr.Doctor's Img" class="imgFluid">
+    </div>
+  </section>
+
+  <section class="section2 shining-section2" id="about">
+    <div class="paras">
+      <p class="sectionTag">WFHCafe - Your Office is where the Coffee is🧋</p>
+      <p class="sectionSubTag">
+  WFHCafe is a community-driven social and discovery web platform designed for remote workers,
+  freelancers, and digital nomads to find work-friendly cafés.
+  <span class="more-text" id="more-wfhcafe">
+    The front-end is built using React, TypeScript, and modern UI frameworks, while the backend
+    is powered by Node.js, Express, and MongoDB with secure Google OAuth and JWT-based
+    authentication. The platform integrates Google Maps for real-time café discovery,
+    WebSockets for live chat, media sharing, visit tracking, and a scalable community-driven
+    architecture for future meetups and rewards.
+  </span>
+  <span class="read-more" onclick="toggleText('more-wfhcafe', this)">Read More</span>
+</p>
+      <div class="buttons">
+        <a href="https://github.com/Kaiftokare19/WFHCafe-EarlyAccess-Frontend"><button class="btn">Github Repo</button></a>
+      </div>
+    </div>
     <div class="image-container thumbnail1">
-      <img src="image2/New-Proj1.png" alt="MyTrain's Img" class="imgFluid">
+      <img src="image2/WFHCafe_WObg.png" alt="WFH Cafe Img" class="imgFluid">
       <span class="new-tag">NEW</span>
     </div>
   </section>
@@ -583,7 +603,7 @@
   <div class="toast" id="toast">Message sent successfully!</div>
   <footer class="background">
     <p class="text-footer">
-      Copyright &copy; 2025 www.kaiftokare.com - All Rights Reserved
+      Copyright &copy; 2026 www.kaiftokare.com - All Rights Reserved
     </p>
   </footer>
   <script src="js/resp.js"></script>

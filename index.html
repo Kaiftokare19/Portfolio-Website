@@ -46,7 +46,7 @@
     <div class="box-main">
       <div class="firsthalf">
         <p class="text-big">kaiftokare</p>
-        <p class="text-small">An Enthusiastic Software Deveoper/AIML Engineer</p>
+        <p class="text-small">Software Deveoper/AIML Engineer</p>
         <div class="buttons">
           <a href="https://www.linkedin.com/in/kaif-tokare-877538249/"><button class="btn">LinkedIn</button></a>
           <a href="https://github.com/Kaiftokare19"><button class="btn">Github</button></a>
@@ -71,11 +71,29 @@
     </div>
   </div>
 
+  <section class="section0" id="about">
+    <div class="paras">
+      <p class="sectionTag">About me</p>
+      <p class="sectionSubTag">
+I am a Software Engineer with experience across multiple startups, building 
+products from scratch to production-ready systems. I enjoy turning ideas 
+into real, usable products and seeing my work out in the world.
+I have a strong interest in architecture and 3D design, which shapes my visual thinking and system design.
+Outside of work, I enjoy playing cricket, travelling, and exploring new 
+technologies. A curious learner and good listener, I grow by building, 
+experimenting, and improving continuously.
+</p>
+    </div>
+    <div class="thumbnail0">
+      <img src="image/Farewell.jpeg" alt="Kaif's Img" class="imgFluid">
+    </div>
+  </section>
+
   <section class="section1" id="Home">
     <div class="paras">
       <p class="sectionTag">Engineering - The Indian Dream (A sweet Nightmare)</p>
       <p class="sectionSubTag">It still feels like a dream, reaching the end of my journey to becoming an 
-        engineer—a dream that kept me going from my first year to the final one. 
+        engineer a dream that kept me going from my first year to the final one. 
         Along the way, I gained a lot and lost even more. But even now, when someone asks me how it was, 
         a smile appears as I say, "Aajao Saare."
       </p>
@@ -88,12 +106,12 @@
   <section class="section2" id="about">
     <div class="paras">
       <p class="sectionTag">My Portfolio</p>
-      <p class="sectionSubTag">A Computer Science engineering(AI ML) Final Year student.
-        Actively engaged in diverse committees, showcasing dedication
-        to holistic growth also with a great academic score. Aspiring
-        Software engineer eager to leverage academic excellence and
-        extracurricular achievements for a successful career.
-      </p>
+      <p class="sectionSubTag">
+Software Engineer with a background in AI & ML, currently working at Falcrow Labs (Staker.fun) as a Full Stack Developer, 
+with experience across multiple startups building real-world applications across 
+backend systems, AI models, and blockchain platforms. Focused on clean architecture, 
+scalable systems, and meaningful product impact.
+</p>
     </div>
     <div class="thumbnail2">
       <img src="image/Logo3.png" alt="Kaif's Img" class="imgFluid">
@@ -102,14 +120,16 @@
 
   <section class="section3" id="about">
     <div class="paras">
-      <p class="sectionTag">My Technical Skills</p>
-<p class="sectionSubTag">Web Development : (HTML, CSS, JavaScript, React.js, Angular.js, Next.js)</p>
-<p class="sectionSubTag">Programming Languages : (Python, Java, C, C++, SQL)</p>
-<p class="sectionSubTag">AI/DL models : (TensorFlow, PyTorch, Keras, Scikit-Learn, XGBoost)</p>
-<p class="sectionSubTag">Web & Graphic Design : (UI/UX (Figma, Canva))</p>
-<p class="sectionSubTag">Software Development & Project Management</p>
-<p class="sectionSubTag">API & Backend Development : (Spring Boot, Postman)</p>
-<p class="sectionSubTag">Basic Data Analytics : (Power BI)</p>
+      <p class="sectionTag">Technical Skills</p>
+
+<p class="sectionSubTag"><strong>Web Development:</strong> HTML, CSS, JavaScript, React.js, Angular.js, Next.js</p>
+<p class="sectionSubTag"><strong>Programming Languages:</strong> Python, Java, C, C++, SQL</p>
+<p class="sectionSubTag"><strong>AI & Machine Learning:</strong> TensorFlow, PyTorch, Keras, Scikit-Learn, XGBoost</p>
+<p class="sectionSubTag"><strong>Backend & API Development:</strong> Spring Boot, REST APIs, Postman</p>
+<p class="sectionSubTag"><strong>Software Development:</strong> System Design Fundamentals, Version Control (Git), Agile Practices</p>
+<p class="sectionSubTag"><strong>UI/UX & Design:</strong> Figma, Canva</p>
+<p class="sectionSubTag"><strong>Data Analytics:</strong> Power BI</p>
+
     </div>
     <div class="thumbnail3">
       <img src="image/TechSkills.png" alt="Laptop image" class="imgFluid">
@@ -135,15 +155,11 @@
   <section class="section5 shining-section" >
     <p class="text-Achieve">Achievements</p>
   </section>
-
-
-
-
-
-
-
-
 <div class="container-1">
+    <div class="card-0" onclick="openModal(0)">
+        <img class="image-0" src="image/MajorProj.jpeg" alt="Image 0">
+        <div class="text-0">Completed my Major Project in B.Tech</div>
+    </div>
     <div class="card-1" onclick="openModal(1)">
         <img class="image-1" src="image/SIH.png" alt="Image 1">
         <div class="text-1">Internal Smart India Hackathon 2025</div>
@@ -164,6 +180,10 @@
     <img class="image-5" src="image/edc.png" alt="Image 5">
     <div class="text-5">Appointed as Vice President at EDC (Entrepreneur Development Cell)</div>
   </div>
+  <div class="card-6" onclick="openModal(6)">
+    <img class="image-6" src="image/Price.jpeg" alt="Image 6">
+    <div class="text-6">Served as Vice President at EDC (Entrepreneur Development Cell)</div>
+  </div>
 </div>
 
 <!-- Modal -->
@@ -174,15 +194,6 @@
         <p id="modal-text-1" class="modal-text-1"></p>
     </div>
 </div>
-
-
-
-
-
-
-
-
-
 
   <div class="3Danimations">
     <div class="scene">
@@ -220,9 +231,12 @@
     </div>
   </div>
 
-
-
-
+  <div class="gallery-container">
+    <div class="scrolling-wrapper" id="scrollingWrapper3">
+        <div class="scrolling-wrapper-inner" id="wrapper5"></div>
+        <div class="scrolling-wrapper-inner" id="wrapper6"></div>
+    </div>
+  </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -302,9 +316,43 @@
     wrapper4.innerHTML = wrapper3.innerHTML;
 });
 
+  document.addEventListener('DOMContentLoaded', () => {
+      // Add your image paths here
+      const imagePaths3 = [
+        './image/20.jpeg',
+        './image/21.jpeg',
+        './image/22.jpeg',
+        './image/23.jpeg',
+        './image/24.jpeg',
+        './image/25.jpeg',
+        './image/26.jpeg',
+      ];
 
+      function createImageElement(src) {
+        const div = document.createElement('div');
+        div.className = 'image-item';
 
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = 'Gallery image';
 
+        div.appendChild(img);
+        return div;
+      }
+
+      const wrapper5 = document.getElementById('wrapper5');
+      const wrapper6 = document.getElementById('wrapper6');
+
+      // Populate both wrappers for seamless scrolling
+      imagePaths3.forEach(path => {
+        wrapper5.appendChild(createImageElement(path));
+        wrapper6.appendChild(createImageElement(path));
+      });
+
+      // Adjust animation speed based on number of images
+      const scrollingWrapper3 = document.getElementById('scrollingWrapper3');
+      scrollingWrapper3.style.animationDuration = `${imagePaths3.length * 2}s`;
+    });
 
 
     // Global Variables
@@ -638,7 +686,7 @@ function expandCard(card) {
 
 <footer class="background">
   <p class="text-footer">
-    Copyright &copy; 2025 www.kaiftokare.com - All Rights Reserved
+    Copyright &copy; 2026 www.kaiftokare.com - All Rights Reserved
   </p>
 </footer>
 </body>
