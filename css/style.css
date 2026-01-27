@@ -601,13 +601,13 @@ html {
 }
 
 .thumbnail0 img {
-  width: 300px;
-  height: 300px;
+  width: 250px;
+  height: 250px;
   border-radius: 20px;
   cursor: pointer;
 }
 
-.thumbnail0 {
+.thumnail0 {
   transition: 1s;
 }
 
@@ -673,7 +673,7 @@ html {
   cursor: pointer;
 }
 
-.thumnail2 {
+.thumbnail2 {
   transition: 1s;
 }
 
@@ -1460,6 +1460,10 @@ html {
     opacity: 0;
   }
 
+  .section0 {
+    flex-direction: column-reverse;
+  }
+
   .section1 {
     flex-direction: column-reverse;
   }
@@ -1497,6 +1501,11 @@ html {
   .paras {
     padding: 0;
     text-align: center;
+  }
+
+  .thumbnail0 img {
+    width: 210px;
+    height: 210px;
   }
 
   .thumbnail1 img {
