@@ -1090,14 +1090,34 @@ html {
 }
 
 .youtube {
-  width: 97%;
-  height: 100%;
+  width: 100%;
+  padding: 10px;
+  border-radius: 12px;
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 20px;
-  border: 2px;
-  border-radius: 150px;
+}
+
+.youtube iframe {
+  width: 100%;
+  max-width: 560px;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  border-radius: 12px;
+}
+
+.youtube-grid {
+  max-width: 90%;
+  margin: 60px auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+}
+
+.youtube-grid iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  border-radius: 12px;
 }
 
 .Text-center {
@@ -1499,8 +1519,9 @@ html {
   }
 
   .paras {
-    padding: 0;
+    padding: 0 15px;
     text-align: center;
+    width: 100%;
   }
 
   .thumbnail0 img {
